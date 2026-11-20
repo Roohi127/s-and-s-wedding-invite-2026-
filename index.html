@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding Celebration | Royal Invitation</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Pinyon+Script&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['"Cinzel"', 'serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        script: ['"Pinyon Script"', 'cursive'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FFFEFA',
+                            100: '#FAF6EE',
+                            200: '#F5EFE0',
+                            300: '#E8DCBF',
+                        },
+                        gold: {
+                            100: '#F7EED3',
+                            200: '#E7D198',
+                            300: '#D4B462',
+                            400: '#C5A059',
+                            500: '#B6985C',
+                            600: '#96783B',
+                            700: '#735823',
+                        },
+                        royalCharcoal: '#1E1B18',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FAF6EE;
+            background-image: url('wedding_bg.png');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            color: #1E1B18;
+            overflow-x: hidden;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Metallic Gold Gradient Text */
+        .gold-metallic-text {
+            background: linear-gradient(135deg, #735823 0%, #c5a059 30%, #e7d198 50%, #b6985c 70%, #735823 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ELEGANT RECTANGLE FRAME CONTAINER FOR GRACE TEXT */
+        .elegant-box-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            background: rgba(255, 254, 250, 0.88);
+            border: 2px solid rgba(197, 160, 89, 0.5);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(115, 88, 35, 0.08);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* SCROLL REVEAL ANIMATION CLASSES */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px) scale(0.97);
+            transition: all 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-reveal-active {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+
+        /* Floating Breathing Animation */
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-subtle-float {
+            animation: subtleFloat 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen selection:bg-gold-200 selection:text-gold-700">
+
+    <!-- BACKGROUND AUDIO -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="wedding_music.mp3" type="audio/mpeg">
+        <source src="music.ogg" type="audio/ogg">
+    </audio>
+
+    <!-- ENTRANCE SPLASH SCREEN WITH CUSTOM HERO_BG IMAGE -->
+    <div id="entrance-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cover bg-center transition-opacity duration-1000 px-4 text-center" style="background-image: url('hero_bg.png');">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"></div>
+        
+        <div class="relative z-10 flex flex-col items-center justify-center">
+            <div class="flex items-center justify-center overflow-hidden py-6 px-8">
+                <span id="initial-s1" class="font-cinzel text-7xl sm:text-9xl text-gold-300 font-bold tracking-widest transform -translate-x-40 opacity-0 transition-all duration-1200 ease-out">
+                    S
+                </span>
+                <span id="initial-amp" class="font-garamond text-6xl sm:text-8xl text-gold-200 mx-3 sm:mx-6 opacity-0 scale-50 transition-all duration-1000 delay-300 ease-out">
+                    &
+                </span>
+                <span id="initial-s2" class="font-cinzel text-7xl sm:text-9xl text-gold-300 font-bold tracking-widest transform translate-x-40 opacity-0 transition-all duration-1200 ease-out">
+                    S
+                </span>
+            </div>
+            
+            <p id="entrance-sub" class="font-serif italic text-lg sm:text-2xl text-gold-100 tracking-widest mt-2 opacity-0 transition-opacity duration-1000">
+                A Celebration of Love & Eternal Blessings
+            </p>
+
+            <!-- ACTION BUTTON TO TRIGGER AUDIO AUTOPLAY & ENTER -->
+            <button id="open-btn" class="mt-8 px-8 py-3 bg-gradient-to-r from-gold-400 via-gold-400 to-gold-400 text-stone-950 font-sans uppercase text-xs tracking-[0.25em] font-semibold rounded-full shadow-2xl hover:scale-105 transition-all duration-300 opacity-0 cursor-pointer">
+                Open Invitation
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER WITH SAFE PADDING TO KEEP CONTENT INSIDE ARCH -->
+    <div class="relative z-10 max-w-2xl mx-auto px-6 sm:px-12 pt-28 sm:pt-36 pb-20 flex flex-col items-center space-y-16 sm:space-y-20">
+
+        <!-- HEADER SECTION -->
+        <header class="text-center w-full pt-4 scroll-reveal">
+            <div class="font-serif text-4xl sm:text-5xl gold-metallic-text font-bold mb-3 tracking-wider">
+                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+            </div>
+            
+            <p class="font-sans text-xs sm:text-sm tracking-[0.22em] uppercase text-stone-700 font-medium max-w-lg mx-auto leading-relaxed">
+                In the name of Allah, the Most Beneficent and Merciful
+            </p>
+
+            <div class="flex items-center justify-center space-x-4 my-6">
+                <div class="w-16 sm:w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-gold-600"></div>
+                <span class="font-script text-2xl text-gold-500">❖</span>
+                <div class="w-16 sm:w-24 h-[1px] bg-gradient-to-l from-transparent via-gold-400 to-gold-600"></div>
+            </div>
+
+            <h2 class="font-serif text-2xl sm:text-3xl text-stone-900 font-semibold tracking-wide">
+                Mrs. Yasmeen Salam <br>
+                (W/o Marhoom Abdul Salam, Karkala)
+            </h2>
+        </header>
+
+        <!-- ELEGANT RECTANGLE BOX SECTION -->
+        <section class="w-full scroll-reveal">
+            <div class="elegant-box-wrapper">
+                <p class="font-serif italic text-base sm:text-lg text-stone-800 leading-relaxed max-w-lg">
+                    By the Grace of Almighty Allah, with immense joy and gratitude, I cordially invite you and your family to grace the reception of my beloved son
+                </p>
+            </div>
+        </section>
+
+        <!-- NAMES SECTION -->
+        <section class="text-center space-y-6 w-full scroll-reveal">
+            <!-- BRIDEGROOM -->
+            <div class="space-y-1">
+                <h1 class="font-cinzel text-2xl sm:text-4xl font-bold tracking-wider gold-metallic-text">
+                    Abdul Salman Salam
+                </h1>
+                <p class="font-sans text-xs uppercase tracking-[0.2em] text-stone-600 font-medium">
+                    (Grand S/o of Marhoom Abdul Aziz, Karkala and Marhoom Mohammed Yusuf, Kudroli)
+                </p>
+            </div>
+
+            <!-- WITH -->
+            <div>
+                <span class="font-script text-4xl sm:text-5xl text-gold-500 block -my-2">
+                    with
+                </span>
+            </div>
+
+            <!-- BRIDE -->
+            <div class="space-y-1">
+                <h1 class="font-cinzel text-2xl sm:text-4xl font-bold tracking-wider gold-metallic-text">
+                    Sara Sheik
+                </h1>
+                <p class="font-sans text-xs uppercase tracking-[0.2em] text-stone-600 font-medium">
+                    (D/o of Sheik Mustaq Ahmed, Kotekar)
+                </p>
+            </div>
+
+            <!-- IN SHA ALLAH ON -->
+            <div class="pt-6">
+                <span class="font-serif italic text-xl sm:text-2xl text-gold-600 font-semibold block">
+                    In sha Allah
+                </span>
+                <span class="font-serif italic text-lg text-stone-700 block mt-1">
+                    on
+                </span>
+            </div>
+        </section>
+
+        <!-- DATE SECTION -->
+        <section class="w-full max-w-xl scroll-reveal">
+            <div class="bg-white/90 border-2 border-gold-300/80 rounded-3xl p-6 sm:p-8 text-center shadow-xl backdrop-blur-md relative">
+                <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 text-white px-8 py-1 rounded-full text-[11px] font-sans uppercase tracking-[0.25em] font-semibold shadow-md">
+                    Save The Date
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 items-center mt-2 relative">
+                    <div class="flex flex-col items-center justify-center px-4 py-3 md:py-0">
+                        <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-stone-900 gold-metallic-text">
+                            DECEMBER 21st 2026
+                        </h3>
+                        <p class="font-serif text-xl text-stone-800 font-semibold mt-1">MONDAY</p>
+                        <p class="font-serif text-xl text-stone-800 font-semibold mt-1">(At 11:30am)</p>
+                    </div>
+
+                    <div class="w-full md:w-0 h-[1px] md:h-full border-t md:border-t-0 md:border-r border-gold-300/80 my-4 md:my-0 md:absolute md:left-1/2 md:top-0 md:bottom-0 md:-translate-x-1/2"></div>
+
+                    <div class="flex flex-col items-center justify-center px-4 py-3 md:py-0">
+                        <h3 class="font-cinzel text-xl sm:text-2xl font-bold text-stone-900">
+                            12 RAJAB
+                        </h3>
+                        <p class="font-serif text-xl text-stone-800 italic mt-1">1448 Hijri</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COUNTDOWN TIMER -->
+        <section class="w-full max-w-2xl scroll-reveal">
+            <div class="text-center mb-4">
+                <p class="font-sans text-xs uppercase tracking-[0.3em] text-gold-600 font-semibold">
+                    Counting Down To The Joyous Day
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-white/90 border border-gold-300/90 rounded-2xl p-4 text-center shadow-lg backdrop-blur-sm">
+                    <span id="count-days" class="block font-cinzel text-2xl sm:text-4xl font-bold gold-metallic-text">00</span>
+                    <span class="text-[10px] font-sans uppercase tracking-widest text-stone-600 font-medium mt-1 block">Days</span>
+                </div>
+                <div class="bg-white/90 border border-gold-300/90 rounded-2xl p-4 text-center shadow-lg backdrop-blur-sm">
+                    <span id="count-hours" class="block font-cinzel text-2xl sm:text-4xl font-bold gold-metallic-text">00</span>
+                    <span class="text-[10px] font-sans uppercase tracking-widest text-stone-600 font-medium mt-1 block">Hours</span>
+                </div>
+                <div class="bg-white/90 border border-gold-300/90 rounded-2xl p-4 text-center shadow-lg backdrop-blur-sm">
+                    <span id="count-minutes" class="block font-cinzel text-2xl sm:text-4xl font-bold gold-metallic-text">00</span>
+                    <span class="text-[10px] font-sans uppercase tracking-widest text-stone-600 font-medium mt-1 block">Minutes</span>
+                </div>
+                <div class="bg-white/90 border border-gold-300/90 rounded-2xl p-4 text-center shadow-lg backdrop-blur-sm">
+                    <span id="count-seconds" class="block font-cinzel text-2xl sm:text-4xl font-bold gold-metallic-text">00</span>
+                    <span class="text-[10px] font-sans uppercase tracking-widest text-stone-600 font-medium mt-1 block">Seconds</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- VENUE SECTION -->
+        <section class="w-full max-w-2xl scroll-reveal">
+            <div class="bg-white/90 border-2 border-gold-300/80 rounded-3xl p-6 sm:p-10 text-center shadow-xl backdrop-blur-md">
+                <p class="font-sans text-xs uppercase tracking-[0.25em] text-gold-600 font-semibold mb-2">
+                    The Reception Venue
+                </p>
+                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-stone-900 mb-2">
+                    Shadi Mahal
+                </h3>
+                <p class="font-serif text-lg text-stone-700 max-w-md mx-auto mb-6">
+                    Bolar Main Road, Near Bolar Islamic Centre, <br>
+                    Bolar, Mangaluru, Karnataka - 575001
+                </p>
+
+                <!-- Interactive Embedded Map -->
+                <div class="w-full h-64 sm:h-80 rounded-2xl overflow-hidden border-2 border-gold-300/80 shadow-inner relative">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.9411045132138!2d74.84273877404844!3d12.847080517598148!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35bc17eb69821%3A0xcdeef35e69088ca!2sShadi%20Mahal!5e0!3m2!1sen!2sin!4v1791558078261!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER & DUA SECTION -->
+        <footer class="text-center w-full py-8 space-y-8 scroll-reveal">
+            <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto"></div>
+            
+            <p class="font-script text-4xl sm:text-5xl text-gold-600 leading-relaxed">
+                We look forward to celebrating with you!
+            </p>
+            
+            <p class="font-sans text-xs uppercase tracking-[0.3em] text-stone-500 font-medium">
+                Dua is the Best Present
+            </p>
+
+            <section class="w-full">
+                <div class="elegant-box-wrapper flex-col space-y-4">
+                    <p class="font-serif text-xl sm:text-2xl text-stone-900 leading-loose">
+                        بَارَكَ اللَّهُ لَكُمَا، وَبَارَكَ عَلَيْكُمَا، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+                    </p>
+                    <p class="font-serif italic text-lg sm:text-xl text-stone-800">
+                        Barakallahu lakuma, wa baraka 'alaykuma, wa jama'a baynakuma fi khayr
+                    </p>
+                    <p class="font-sans text-sm sm:text-base text-stone-700 tracking-wide">
+                        "May Allah bless you both, shower His blessings upon you, and bring you together in goodness."
+                    </p>
+                </div>
+            </section>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const leftS = document.getElementById('initial-s1');
+            const rightS = document.getElementById('initial-s2');
+            const ampS = document.getElementById('initial-amp');
+            const subS = document.getElementById('entrance-sub');
+            const openBtn = document.getElementById('open-btn');
+            const overlay = document.getElementById('entrance-overlay');
+            const bgAudio = document.getElementById('bg-music');
+
+            // Play music helper with graceful error handling
+            function playAudio() {
+                if (bgAudio) {
+                    bgAudio.volume = 0.7;
+                    bgAudio.play().catch(err => {
+                        console.log('Autoplay deferred until user interaction:', err);
+                    });
+                }
+            }
+
+            // Reveal Initial Animation Sequence
+            setTimeout(() => {
+                leftS.classList.remove('-translate-x-40', 'opacity-0');
+                rightS.classList.remove('translate-x-40', 'opacity-0');
+                ampS.classList.remove('opacity-0', 'scale-50');
+            }, 300);
+
+            setTimeout(() => {
+                subS.classList.remove('opacity-0');
+                openBtn.classList.remove('opacity-0');
+            }, 1000);
+
+            // Trigger transition & music playback on button click
+            openBtn.addEventListener('click', function() {
+                playAudio();
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    initScrollObserver();
+                }, 1000);
+            });
+
+            // 2. Real-time Live Countdown Timer (Preserved standard date)
+            const targetDate = new Date('December 21, 2026 00:00:00').getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const difference = targetDate - now;
+
+                if (difference <= 0) {
+                    document.getElementById('count-days').innerText = '00';
+                    document.getElementById('count-hours').innerText = '00';
+                    document.getElementById('count-minutes').innerText = '00';
+                    document.getElementById('count-seconds').innerText = '00';
+                    return;
+                }
+
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('count-days').innerText = String(days).padStart(2, '0');
+                document.getElementById('count-hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('count-minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('count-seconds').innerText = String(seconds).padStart(2, '0');
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // 3. Scroll Reveal Animation Observer
+            function initScrollObserver() {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px 0px -50px 0px',
+                    threshold: 0.12
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('scroll-reveal-active');
+                        }
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+            }
+        });
+    </script>
+</body>
+</html>
